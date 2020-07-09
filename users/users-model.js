@@ -1,32 +1,38 @@
-const db = require("../database/config")
+const db = require("../database/config");
 
-async function add(user){
-    const [id] = await db("users").insert(user)
+async function add(user) {
+	const [id] = await db("users").insert(user);
 }
 
 function get() {
-	return db("users").select("id", "username")
+	return db("users").select("id", "username");
 }
 
 function getById(id) {
-	return db("users")
-		.select("id", "username")
-		.where({ id })
-		.first()
+	return db("users").select("id", "username").where({ id }).first();
 }
 
+function getBy(filter) {
+	return db("users").select("id", "username", "password").where(filter);
+}
+
+// extra helpers
+
 function remove(id) {
-    return db("users").where("users.id", id).del()
+	return db("users").where("users.id", id).del();
 }
 
 function update(id, changed) {
-    return db("users").where("users.id", id).update(changed)
+	return db("users").where("users.id", id).update(changed);
 }
+
+
 
 module.exports = {
 	add,
 	get,
-    getById,
-    remove, 
-    update
-}
+	getById,
+	remove,
+	update,
+	getBy,
+};
